@@ -32,3 +32,30 @@ class Mammal(Animal):
     def nurse_young(self):
         '''Abstract nursing behaviour which is bespoke to mammals.'''
         pass
+
+class Lion(Mammal):
+    def make_sound(self):
+        return 'ROOOAAAARRRRR!!!!'
+
+    def nurse_young(self):
+        if self.gender != 'female' or not self.is_mother:
+            raise PermissionError(f'{self.name} cannot nurse any young.')
+        return f'{self.name} is nursing young.'
+
+class Chimpanzee(Mammal):
+    def make_sound(self):
+        return 'OOOHHH OOOHH AAHHHHHH AHHHHHHHH'
+
+    def nurse_young(self):
+        if self.gender != 'female' or not self.is_mother:
+            raise PermissionError(f'{self.name} cannot nurse any young.')
+        return f'{self.name} is nursing young.'
+
+class Dingo(Mammal):
+    def make_sound(self):
+        return 'OOOOOOOHHHHHHHHHHOOOOO'
+
+    def nurse_young(self):
+        if self.gender != 'female' or not self.is_mother:
+            raise PermissionError(f'{self.name} cannot nurse any young.')
+        return f'{self.name} is nursing young.'
