@@ -31,3 +31,51 @@ class Bird(Animal):
     def fly(self):
         '''fly method which is bespoke to birds'''
         return f'{self.name} is flying. Flap Flap'
+
+class Eagle(Bird):
+    def __init__(self, name, dob, gender, is_mother=False):
+        super().__init__(
+            name=name,
+            species='eagle',
+            dob=dob,
+            gender=gender,
+            dietary_needs='rodents',
+            is_mother=is_mother,
+        )
+
+    def make_sound(self):
+        return 'Screeeecchh'
+
+class Kookaburra(Bird):
+    def __init__(self, name, dob, gender, is_mother=False):
+        super().__init__(
+            name=name,
+            species='kookaburra',
+            dob=dob,
+            gender=gender,
+            dietary_needs='insects & small rodents',
+            is_mother=is_mother,
+        )
+
+    def make_sound(self):
+        return 'hahahahahahaahahahahahahaha'
+
+class Penguin(Bird):
+    def __init__(self, name, dob, gender, is_mother=False):
+        super().__init__(
+            name=name,
+            species='penguin',
+            dob=dob,
+            gender=gender,
+            dietary_needs='fish',
+            is_mother=is_mother,
+        )
+
+    def make_sound(self):
+        return 'Hooonnnkkk'
+
+    def fly(self):
+        return f'{self.species}s cannot fly. They can swim though.'
+
+    def swim(self):
+        return f'{self.name} is swimming.'
