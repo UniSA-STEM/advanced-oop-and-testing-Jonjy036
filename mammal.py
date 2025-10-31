@@ -34,28 +34,64 @@ class Mammal(Animal):
         pass
 
 class Lion(Mammal):
+    def __init__(self, name, dob, gender, is_mother=False):
+        super().__init__(
+            name = name,
+            species ='lion',
+            dob = dob,
+            gender = gender,
+            dietary_needs = 'meat',
+            is_mother = is_mother
+        )
+
     def make_sound(self):
         return 'ROOOAAAARRRRR!!!!'
 
     def nurse_young(self):
-        if self.gender != 'female' or not self.is_mother:
-            raise PermissionError(f'{self.name} cannot nurse any young.')
+        if self.gender != 'female':
+            raise PermissionError(f'{self.name} cannot nurse any young. They are not female!')
+        elif not self.is_mother:
+            raise PermissionError(f'{self.name} cannot nurse any young. They are not a mother.')
         return f'{self.name} is nursing young.'
 
 class Chimpanzee(Mammal):
+    def __init__(self, name, dob, gender, is_mother=False):
+        super().__init__(
+            name = name,
+            species = 'chimpanzee',
+            dob = dob,
+            gender = gender,
+            dietary_needs = 'fruit',
+            is_mother = is_mother
+        )
+
     def make_sound(self):
         return 'OOOHHH OOOHH AAHHHHHH AHHHHHHHH'
 
     def nurse_young(self):
-        if self.gender != 'female' or not self.is_mother:
-            raise PermissionError(f'{self.name} cannot nurse any young.')
+        if self.gender != 'female':
+            raise PermissionError(f'{self.name} cannot nurse any young. They are not female!')
+        elif not self.is_mother:
+            raise PermissionError(f'{self.name} cannot nurse any young. They are not a mother.')
         return f'{self.name} is nursing young.'
 
 class Dingo(Mammal):
+    def __init__(self, name, dob, gender, is_mother=False):
+        super().__init__(
+            name = name,
+            species = 'dingo',
+            dob = dob,
+            gender = gender,
+            dietary_needs = 'meat',
+            is_mother = is_mother
+        )
+
     def make_sound(self):
         return 'OOOOOOOHHHHHHHHHHOOOOO'
 
     def nurse_young(self):
-        if self.gender != 'female' or not self.is_mother:
-            raise PermissionError(f'{self.name} cannot nurse any young.')
+        if self.gender != 'female':
+            raise PermissionError(f'{self.name} cannot nurse any young. They are not female!')
+        elif not self.is_mother:
+            raise PermissionError(f'{self.name} cannot nurse any young. They are not a mother.')
         return f'{self.name} is nursing young.'
