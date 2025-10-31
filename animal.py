@@ -93,8 +93,6 @@ class Animal(ABC):
     def is_mother(self, is_mother):
         if not isinstance(is_mother, bool):
             raise TypeError('is_mother must be a boolean')
-        elif not is_mother:
-            raise ValueError('is_mother cannot be empty')
         self.__is_mother = is_mother
 
     # Define abstract methods to pass to children and grandchildren classes.
