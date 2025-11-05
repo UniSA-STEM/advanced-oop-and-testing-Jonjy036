@@ -9,10 +9,32 @@ This is my own work as defined by the University's Academic Integrity Policy.
 from abc import abstractmethod
 from animal import Animal
 from datetime import date
+from species_data import *
 
 class Mammal(Animal):
-    def __init__(self, name, species, dob, gender, dietary_needs, is_mother):
-        super().__init__(name, species, dob, gender, dietary_needs, is_mother)
+    def __init__(self, name, species, dob, gender, is_mother):
+        super().__init__(name, species, dob, gender, is_mother)
+
+    @property
+    def environment_type(self):
+        env = SPECIES_ENVIRONMENT.get(self.species.lower())
+        if env is None:
+            raise ValueError(f'there is novalid environment for a {self.species} listed.')
+        return env
+
+    @property
+    def environment_size(self):
+        size = ENVIRONMENT_SIZE.get(self.species.lower())
+        if size is None:
+            raise ValueError(f'No valid size listed for a {self.species}.')
+        return size
+
+    @property
+    def dietary_needs(self):
+        needs = SPECIES_DIETARY_NEEDS.get(self.species.lower())
+        if needs is None:
+            raise ValueError(f'No diet found for {self.species}.')
+        return needs
 
     def eat(self):
         '''Standard eating behaviour by all classes (except where necessary).'''
@@ -41,7 +63,6 @@ class Lion(Mammal):
             species ='lion',
             dob = dob,
             gender = gender,
-            dietary_needs = 'meat',
             is_mother = is_mother
         )
 
@@ -62,7 +83,6 @@ class Chimpanzee(Mammal):
             species = 'chimpanzee',
             dob = dob,
             gender = gender,
-            dietary_needs = 'fruit',
             is_mother = is_mother
         )
 
@@ -83,7 +103,6 @@ class Dingo(Mammal):
             species = 'dingo',
             dob = dob,
             gender = gender,
-            dietary_needs = 'meat',
             is_mother = is_mother
         )
 
