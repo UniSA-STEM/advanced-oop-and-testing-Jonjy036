@@ -9,20 +9,32 @@ This is my own work as defined by the University's Academic Integrity Policy.
 from animal import Animal
 from abc import abstractmethod
 from datetime import date
+from species_data import *
 
 class Reptile(Animal):
-    SIZES = ['extra small', 'small', 'medium', 'large', 'extra large']
-    def __init__(self, name, species, dob, gender, dietary_needs, is_mother, size: str):
-        super().__init__(name, species, dob, gender, dietary_needs, is_mother)
-        if not isinstance(size, str):
-            raise TypeError('size must be a string')
-        if size not in self.SIZES:
-            raise ValueError(f'size must be one of {", ".join(self.SIZES)}')
-        self.__size = size
+    def __init__(self, name, species, dob, gender, is_mother):
+        super().__init__(name, species, dob, gender, is_mother)
 
     @property
-    def size(self):
-        return self.__size
+    def environment_type(self):
+        env = SPECIES_ENVIRONMENT.get(self.species.lower())
+        if env is None:
+            raise ValueError(f'there is novalid environment for a {self.species} listed.')
+        return env
+
+    @property
+    def environment_size(self):
+        size = ENVIRONMENT_SIZE.get(self.species.lower())
+        if size is None:
+            raise ValueError(f'No valid size listed for a {self.species}.')
+        return size
+
+    @property
+    def dietary_needs(self):
+        needs = SPECIES_DIETARY_NEEDS.get(self.species.lower())
+        if needs is None:
+            raise ValueError(f'No diet found for {self.species}.')
+        return needs
 
     def eat(self):
         '''Standard eating behaviour by all classes (except where necessary).'''
@@ -50,9 +62,7 @@ class Crocodile(Reptile):
             species = 'crocodile',
             dob = dob,
             gender = gender,
-            dietary_needs = 'meat',
             is_mother = is_mother,
-            size = 'extra large'
         )
 
     def make_sound(self):
@@ -65,9 +75,7 @@ class Python(Reptile):
             species='python',
             dob=dob,
             gender=gender,
-            dietary_needs='rodents',
             is_mother=is_mother,
-            size='Large'
         )
 
     def make_sound(self):
@@ -80,9 +88,7 @@ class BeardedDragon(Reptile):
             species='bearded dragon',
             dob=dob,
             gender=gender,
-            dietary_needs='insects and green leaves',
             is_mother=is_mother,
-            size='small'
         )
 
     def make_sound(self):
