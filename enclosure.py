@@ -6,6 +6,9 @@ ID: 110484756
 Username: jonjy036
 This is my own work as defined by the University's Academic Integrity Policy.
 '''
+from species_data import ENVIRONMENT_SIZE
+
+
 class Enclosure:
     def __init__(self, name: str, size, environment, cleanliness=100):
         self.__name = name
@@ -45,3 +48,53 @@ class Enclosure:
             raise ValueError('cleanliness level must be between 0 and 100')
         self.__cleanliness = level
 
+    def appropriate_species(self, animal):
+        if self.species_in_enclosure and animal.species.lower != self.species_in_enclosure:
+            print('An incompatible animal already lives here.')
+            return False
+        if animal.environment_type != self.environment:
+            print(f'The enclosure is the wrong environment type for {animal.name}')
+            return False
+        allowed_sizes = ENVIRONMENT_SIZE.get(animal.species.lower)
+        if self.size not in allowed_sizes:
+            print(f'The enclosure is an incompatible size for {animal.name}')
+            return False
+        return True
+
+    def add_animal(self, animal):
+        if self.appropriate_species(animal):
+            self.__inhabitants.append(animal)
+            if not self.__species_in_enclosure:
+                self.__species_in_enclosure = animal.species.lower()
+            print(f'You have added {animal.name} to the enclosure {self.__name}')
+            return True
+        return False
+
+    def remove_animal(self, animal):
+        if animal in self.__inhabitants:
+            self.__inhabitants.remove(animal)
+            print(f'You have removed {animal.name} from the enclosure {self.name}')
+            if not self.__inhabitants:
+                self.__species_in_enclosure = None
+                print(f'Enclosure {self.name} is now empty.')
+            return True
+        else:
+            print(f'{animal} was not found in enclosure {self.name}. No animals have been removed.')
+            return False
+
+    def cleaning_required(self):
+        if self.cleanliness <= 30:
+            print(f'The enclosure {self.name} needs to be cleaned up today!')
+            return True
+        if self.cleanliness < 50:
+            print(f'The enclosure {self.name} needs to be cleaned in the next 3 days.')
+            return True
+        if self.cleanliness < 80:
+            print(f'The enclosure {self.name} needs to be cleaned up within 1 week.')
+            return True
+        print(f'The enclosure {self.name} does not need cleaning yet.')
+        return False
+
+    def clean_enclosure(self):
+        self.__cleanliness = 100
+        print(f'The enclosure {self.name} has been fully cleaned up.')
