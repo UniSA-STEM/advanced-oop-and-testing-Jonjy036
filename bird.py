@@ -9,7 +9,6 @@ This is my own work as defined by the University's Academic Integrity Policy.
 from animal import Animal
 from abc import abstractmethod
 from datetime import date
-from species_data import *
 
 class Bird(Animal):
     def __init__(self, name, species, dob, gender, is_mother):

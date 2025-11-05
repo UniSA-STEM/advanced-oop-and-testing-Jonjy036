@@ -10,8 +10,12 @@ from species_data import ENVIRONMENT_SIZE
 
 
 class Enclosure:
+    ALLOWED_SIZES = ['extra small', 'small', 'medium', 'large', 'extra large']
+
     def __init__(self, name: str, size, environment, cleanliness=100):
         self.__name = name
+        if size not in Enclosure.ALLOWED_SIZES:
+            raise ValueError('The size of the enclosure must be one of the allowed sizes')
         self.__size = size
         self.__environment = environment
         self.__cleanliness = cleanliness
@@ -19,11 +23,12 @@ class Enclosure:
         self.__species_in_enclosure = None
 
     def __str__(self):
+        inhabitants_string = '\n'.join(str(animal) for animal in self.__inhabitants) if self.__inhabitants else 'No inhabitants'
         return (f'Enclosure: {self.__name}\n'
                 f'Size: {self.__size}\n'
                 f'Environment: {self.__environment}\n'
                 f'Cleanliness: {self.__cleanliness}\n'
-                f'Inhabitants: {self.__inhabitants}\n'
+                f'Inhabitants: {inhabitants_string}\n'
                 f'Species in enclosure: {self.__species_in_enclosure}\n\n')
 
     @property
@@ -57,13 +62,13 @@ class Enclosure:
         self.__cleanliness = level
 
     def appropriate_species(self, animal):
-        if self.species_in_enclosure and animal.species.lower != self.species_in_enclosure:
+        if self.species_in_enclosure and animal.species.lower() != self.species_in_enclosure:
             print('An incompatible animal already lives here.')
             return False
         if animal.environment_type != self.environment:
             print(f'The enclosure is the wrong environment type for {animal.name}')
             return False
-        allowed_sizes = ENVIRONMENT_SIZE.get(animal.species.lower)
+        allowed_sizes = ENVIRONMENT_SIZE.get(animal.species.lower())
         if self.size not in allowed_sizes:
             print(f'The enclosure is an incompatible size for {animal.name}')
             return False
@@ -106,3 +111,13 @@ class Enclosure:
     def clean_enclosure(self):
         self.__cleanliness = 100
         print(f'The enclosure {self.name} has been fully cleaned up.')
+
+class OpenAir(Enclosure):
+    pass
+
+class Vivarium(Enclosure):
+    pass
+
+class Aviary(Enclosure):
+    pass
+
