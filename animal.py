@@ -8,6 +8,7 @@ This is my own work as defined by the University's Academic Integrity Policy.
 '''
 from abc import ABC, abstractmethod
 from datetime import date
+from species_data import *
 
 # Define Grandparent class of Animal.
 class Animal(ABC):
@@ -46,6 +47,16 @@ class Animal(ABC):
         self.__gender = gender.lower()
         self.__is_mother = is_mother
 
+    def __str__(self):
+        return (f'Name: {self.__name}\n'
+                f'Species: {self.__species}\n'
+                f'DOB: {self.__dob}\n'
+                f'Gender: {self.__gender}\n'
+                f'Is a mother: {self.__is_mother}\n'
+                f'Required environment: {self.environment_type}\n'
+                f'Enclosure size: {self.environment_size}\n'
+                f'Dietary needs: {self.dietary_needs}\n\n')
+
     # Add property decorators for getters and setters.
     @property
     def name(self):
@@ -70,6 +81,27 @@ class Animal(ABC):
     @property
     def is_mother(self):
         return self.__is_mother
+
+    @property
+    def environment_type(self):
+        env = SPECIES_ENVIRONMENT.get(self.species.lower())
+        if env is None:
+            raise ValueError(f'there is novalid environment for a {self.species} listed.')
+        return env
+
+    @property
+    def environment_size(self):
+        size = ENVIRONMENT_SIZE.get(self.species.lower())
+        if size is None:
+            raise ValueError(f'No valid size listed for a {self.species}.')
+        return size
+
+    @property
+    def dietary_needs(self):
+        needs = SPECIES_DIETARY_NEEDS.get(self.species.lower())
+        if needs is None:
+            raise ValueError(f'No diet found for {self.species}.')
+        return needs
 
     @is_mother.setter
     def is_mother(self, is_mother):

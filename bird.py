@@ -15,27 +15,6 @@ class Bird(Animal):
     def __init__(self, name, species, dob, gender, is_mother):
         super().__init__(name, species, dob, gender, is_mother)
 
-    @property
-    def environment_type(self):
-        env = SPECIES_ENVIRONMENT.get(self.species.lower())
-        if env is None:
-            raise ValueError(f'there is novalid environment for a {self.species} listed.')
-        return env
-
-    @property
-    def environment_size(self):
-        size = ENVIRONMENT_SIZE.get(self.species.lower())
-        if size is None:
-            raise ValueError(f'No valid size listed for a {self.species}.')
-        return size
-
-    @property
-    def dietary_needs(self):
-        needs = SPECIES_DIETARY_NEEDS.get(self.species.lower())
-        if needs is None:
-            raise ValueError(f'No diet found for {self.species}.')
-        return needs
-
     def eat(self):
         '''Standard eating behaviour by all classes (except where necessary).'''
         return f'{self.name} is eating.'

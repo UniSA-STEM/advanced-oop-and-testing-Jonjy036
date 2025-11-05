@@ -18,6 +18,14 @@ class Enclosure:
         self.__inhabitants = []
         self.__species_in_enclosure = None
 
+    def __str__(self):
+        return (f'Enclosure: {self.__name}\n'
+                f'Size: {self.__size}\n'
+                f'Environment: {self.__environment}\n'
+                f'Cleanliness: {self.__cleanliness}\n'
+                f'Inhabitants: {self.__inhabitants}\n'
+                f'Species in enclosure: {self.__species_in_enclosure}\n\n')
+
     @property
     def name(self):
         return self.__name
