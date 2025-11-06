@@ -21,6 +21,7 @@ class Enclosure:
         self.__cleanliness = cleanliness
         self.__inhabitants = []
         self.__species_in_enclosure = None
+        self._food_level = 0
 
     def __str__(self):
         inhabitants_string = '\n'.join(str(animal) for animal in self.__inhabitants) if self.__inhabitants else 'No inhabitants'
@@ -29,7 +30,8 @@ class Enclosure:
                 f'Environment: {self.__environment}\n'
                 f'Cleanliness: {self.__cleanliness}\n'
                 f'Inhabitants: {inhabitants_string}\n'
-                f'Species in enclosure: {self.__species_in_enclosure}\n\n')
+                f'Species in enclosure: {self.__species_in_enclosure}'
+                f'Portions of food: {self._food_level}\n\n')
 
     @property
     def name(self):
@@ -54,6 +56,10 @@ class Enclosure:
     @property
     def species_in_enclosure(self):
         return self.__species_in_enclosure
+
+    @property
+    def food_level(self):
+        return self._food_level
 
     @cleanliness.setter
     def cleanliness(self, level):
@@ -111,6 +117,18 @@ class Enclosure:
     def clean_enclosure(self):
         self.__cleanliness = 100
         print(f'The enclosure {self.name} has been fully cleaned up.')
+
+    def add_food(self, amount: int):
+        if amount <= 0:
+            raise ValueError('The amount must be greater than 0')
+        self._food_level += amount
+
+    def consume_food(self, amount: int):
+        if amount <= 0:
+            raise ValueError('The amount must be greater than 0')
+        if amount > self._food_level:
+            raise ValueError('The amount cannot be greater than the amount of available food.')
+        self._food_level -= amount
 
 class OpenAir(Enclosure):
     pass

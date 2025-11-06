@@ -8,6 +8,8 @@ This is my own work as defined by the University's Academic Integrity Policy.
 '''
 from abc import ABC, abstractmethod
 from datetime import date
+
+from enclosure import Enclosure
 from species_data import *
 
 # Define Grandparent class of Animal.
@@ -86,7 +88,7 @@ class Animal(ABC):
     def environment_type(self):
         env = SPECIES_ENVIRONMENT.get(self.species.lower())
         if env is None:
-            raise ValueError(f'there is novalid environment for a {self.species} listed.')
+            raise ValueError(f'there is no valid environment for a {self.species} listed.')
         return env
 
     @property
@@ -109,11 +111,13 @@ class Animal(ABC):
             raise TypeError('is_mother must be a boolean')
         self.__is_mother = is_mother
 
-    # Define abstract methods to pass to children and grandchildren classes.
-    @abstractmethod
-    def eat(self):
-        pass
+    def eat(self, enclosure: Enclosure):
+        if enclosure.food_level <= 0:
+            return f'No food available to eat in {enclosure.name}.'
+        enclosure.consume_food(1)
+        return f'{self.name} is eating. There are {enclosure.food_level} portions left.'
 
+    # Define abstract methods to pass to children and grandchildren classes.
     @abstractmethod
     def make_sound(self):
         pass

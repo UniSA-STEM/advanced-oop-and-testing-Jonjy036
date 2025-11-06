@@ -14,10 +14,6 @@ class Mammal(Animal):
     def __init__(self, name, species, dob, gender, is_mother):
         super().__init__(name, species, dob, gender, is_mother)
 
-    def eat(self):
-        '''Standard eating behaviour by all classes (except where necessary).'''
-        return f'{self.name} is eating. Munch munch.'
-
     # Make_sound remains abstract as sound is bespoke to individual species.
     @abstractmethod
     def make_sound(self):

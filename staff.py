@@ -16,15 +16,13 @@ class Staff:
                 f'Staff number: {self.__staff_number}\n')
 
     @property
-    def name(self)
+    def name(self):
         return self.__name
 
     @property
-    def staff_number(self)
+    def staff_number(self):
         return self.__staff_number
 
     @name.setter
     def name(self, name):
         self.__name = name
-
-
