@@ -14,6 +14,11 @@ from enclosure import Enclosure
 class ZooManager(Staff):
     def __init__(self, name, staff_number):
         super().__init__(name, staff_number)
+        self._zookeeper_assignments = {}
+
+    @property
+    def zookeeper_assignments(self):
+        return {zookeeper: list(enclosures) for zookeeper, enclosures in self._zookeeper_assignments.items()}
 
     def assign_animal_to_enclosure(self, animal, enclosure):
         if animal is None:
@@ -50,3 +55,37 @@ class ZooManager(Staff):
         else:
             print(f'{animal.name} was not found in enclosure {enclosure.name}. No animals have been removed.')
             return False
+
+    def assign_zookeeper_to_enclosure(self, zookeeper, enclosure):
+        if zookeeper is None or enclosure is None:
+            raise AttributeError("Zookeeper and enclosure must be specified.")
+
+        if zookeeper not in self._zookeeper_assignments:
+            self._zookeeper_assignments[zookeeper] = []
+
+        if enclosure not in self._zookeeper_assignments[zookeeper]:
+            self._zookeeper_assignments[zookeeper].append(enclosure)
+            print(f"Zookeeper {zookeeper.name} assigned to enclosure {enclosure.name}.")
+        else:
+            print(f"Zookeeper {zookeeper.name} is already assigned to enclosure {enclosure.name}.")
+
+    def remove_zookeeper_assignment(self, zookeeper, enclosure):
+        if zookeeper is None or enclosure is None:
+            raise AttributeError("Zookeeper and enclosure must be specified.")
+
+        if zookeeper in self._zookeeper_assignments:
+            if enclosure in self._zookeeper_assignments[zookeeper]:
+                self._zookeeper_assignments[zookeeper].remove(enclosure)
+                print(f"Zookeeper {zookeeper.name} removed from {enclosure.name}.")
+                if not self._zookeeper_assignments[zookeeper]:
+                    del self._zookeeper_assignments[zookeeper]
+                return True
+            else:
+                print(f"Zookeeper {zookeeper.name} was not assigned to {enclosure.name} so cannot be removed.")
+                return False
+        else:
+            print(f"Zookeeper {zookeeper.name} has no enclosure assignments.")
+            return False
+
+    def get_enclosures_for_zookeeper(self, zookeeper):
+        return self._zookeeper_assignments.get(zookeeper, [])
