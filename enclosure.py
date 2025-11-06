@@ -80,27 +80,6 @@ class Enclosure:
             return False
         return True
 
-    def add_animal(self, animal):
-        if self.appropriate_species(animal):
-            self.__inhabitants.append(animal)
-            if not self.__species_in_enclosure:
-                self.__species_in_enclosure = animal.species.lower()
-            print(f'You have added {animal.name} to the enclosure {self.__name}')
-            return True
-        return False
-
-    def remove_animal(self, animal):
-        if animal in self.__inhabitants:
-            self.__inhabitants.remove(animal)
-            print(f'You have removed {animal.name} from the enclosure {self.name}')
-            if not self.__inhabitants:
-                self.__species_in_enclosure = None
-                print(f'Enclosure {self.name} is now empty.')
-            return True
-        else:
-            print(f'{animal} was not found in enclosure {self.name}. No animals have been removed.')
-            return False
-
     def cleaning_required(self):
         if self.cleanliness <= 30:
             print(f'The enclosure {self.name} needs to be cleaned up today!')
