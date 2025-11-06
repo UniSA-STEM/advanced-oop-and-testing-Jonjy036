@@ -49,6 +49,12 @@ class Enclosure:
     def cleanliness(self):
         return self.__cleanliness
 
+    @cleanliness.setter
+    def cleanliness(self, level):
+        if not (0 <= level <= 100):
+            raise ValueError('cleanliness level must be between 0 and 100')
+        self.__cleanliness = level
+
     @property
     def inhabitants(self):
         return self.__inhabitants
@@ -60,12 +66,6 @@ class Enclosure:
     @property
     def food_level(self):
         return self._food_level
-
-    @cleanliness.setter
-    def cleanliness(self, level):
-        if not (0 <= level <= 100):
-            raise ValueError('cleanliness level must be between 0 and 100')
-        self.__cleanliness = level
 
     def appropriate_species(self, animal):
         if self.species_in_enclosure and animal.species.lower() != self.species_in_enclosure:
@@ -113,22 +113,6 @@ class Enclosure:
             return True
         print(f'The enclosure {self.name} does not need cleaning yet.')
         return False
-
-    def clean_enclosure(self):
-        self.__cleanliness = 100
-        print(f'The enclosure {self.name} has been fully cleaned up.')
-
-    def add_food(self, amount: int):
-        if amount <= 0:
-            raise ValueError('The amount must be greater than 0')
-        self._food_level += amount
-
-    def consume_food(self, amount: int):
-        if amount <= 0:
-            raise ValueError('The amount must be greater than 0')
-        if amount > self._food_level:
-            raise ValueError('The amount cannot be greater than the amount of available food.')
-        self._food_level -= amount
 
 class OpenAir(Enclosure):
     pass

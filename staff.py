@@ -24,13 +24,13 @@ class Staff:
     def name(self):
         return self.__name
 
-    @property
-    def staff_number(self):
-        return self.__staff_number
-
     @name.setter
     def name(self, name):
         self.__name = name
+
+    @property
+    def staff_number(self):
+        return self.__staff_number
 
     def report(self, animal, report_type, description, date_reported, severity,
                treatment_plan='', notes=''):

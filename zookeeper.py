@@ -17,25 +17,17 @@ class Zookeeper(Staff):
         if enclosure is None:
             raise ValueError(f'{enclosure} is not a valid enclosure')
         print(f'{self.name} cleaning enclosure {enclosure.name}')
-        return enclosure.clean_enclosure()
+        enclosure.cleanliness = 100
 
     def feed_animals(self, animals, enclosure: Enclosure):
-        print(f'{self.name} is feeding the animals in {enclosure.name}')
-        if not isinstance(animals, list):
-            animals = [animals]
+        if enclosure is None:
+            raise ValueError(f'{enclosure} is not a valid enclosure')
 
-        for animal in animals:
-            try:
-                if animal is None:
-                    print(f'No animal found for {animal}. moving to the next animal.')
-                    continue
+        num_animals = len(enclosure.inhabitants)
+        if num_animals == 0:
+            print(f'There are no animals in {enclosure.name}.')
+            return
 
-                result = animal.eat(enclosure)
-                print(result)
-            except Exception as e:
-                animal_name = 'unknown'
-                try:
-                    animal_name = animal.name
-                except AttributeError:
-                    pass
-                print(f'Error feeding {animal_name}: {e}')
+        enclosure._food_level += num_animals
+
+        print(f'{self.name} has added {num_animals} portions of food to {enclosure.name}.')

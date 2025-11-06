@@ -48,6 +48,7 @@ class Animal(ABC):
         self.__dob = dob
         self.__gender = gender.lower()
         self.__is_mother = is_mother
+        self.__enclosure = None
 
     def __str__(self):
         return (f'Name: {self.__name}\n'
@@ -57,6 +58,7 @@ class Animal(ABC):
                 f'Is a mother: {self.__is_mother}\n'
                 f'Required environment: {self.environment_type}\n'
                 f'Enclosure size: {self.environment_size}\n'
+                f'Enclosure: {self.__enclosure}\n'
                 f'Dietary needs: {self.dietary_needs}\n\n')
 
     # Add property decorators for getters and setters.
@@ -84,6 +86,12 @@ class Animal(ABC):
     def is_mother(self):
         return self.__is_mother
 
+    @is_mother.setter
+    def is_mother(self, is_mother):
+        if not isinstance(is_mother, bool):
+            raise TypeError('is_mother must be a boolean')
+        self.__is_mother = is_mother
+
     @property
     def environment_type(self):
         env = SPECIES_ENVIRONMENT.get(self.species.lower())
@@ -105,17 +113,17 @@ class Animal(ABC):
             raise ValueError(f'No diet found for {self.species}.')
         return needs
 
-    @is_mother.setter
-    def is_mother(self, is_mother):
-        if not isinstance(is_mother, bool):
-            raise TypeError('is_mother must be a boolean')
-        self.__is_mother = is_mother
+    @property
+    def enclosure(self):
+        return self.__enclosure
 
     def eat(self, enclosure: Enclosure):
-        if enclosure.food_level <= 0:
-            return f'No food available to eat in {enclosure.name}.'
-        enclosure.consume_food(1)
-        return f'{self.name} is eating. There are {enclosure.food_level} portions left.'
+        if not self.enclosure:
+            raise ValueError(f'{self.name} does not have an enclosure')
+        if self.enclosure._food_level <= 0:
+            return f'No food available in {self.enclosure.name}'
+        self.enclosure._food_level -= 1
+        return f'{self.name} ate some food from {self.enclosure.name}. There is {self.enclosure._food_level} food left.'
 
     # Define abstract methods to pass to children and grandchildren classes.
     @abstractmethod
