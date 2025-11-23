@@ -14,6 +14,8 @@ from species_data import *
 
 # Define Grandparent class of Animal.
 class Animal(ABC):
+    animal_list = []
+
     def __init__(self, name: str, species: str, dob: date, gender: str, is_mother: bool=False):
 
         # Validate parameters.
@@ -51,6 +53,8 @@ class Animal(ABC):
         self.__enclosure = None
         self.__original_enclosure = None
         self.__in_good_health = True
+
+        Animal.animal_list.append(self)
 
     def __str__(self):
         return (f'Name: {self.__name}\n'

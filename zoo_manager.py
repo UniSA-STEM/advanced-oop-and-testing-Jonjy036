@@ -8,7 +8,7 @@ This is my own work as defined by the University's Academic Integrity Policy.
 '''
 from staff import Staff
 from enclosure import Enclosure
-
+from animal import Animal
 
 
 class ZooManager(Staff):
@@ -20,6 +20,10 @@ class ZooManager(Staff):
     @property
     def enclosure_list(self):
         return Enclosure.enclosure_list
+
+    @property
+    def animal_list(self):
+        return Animal.animal_list
 
     @property
     def zookeeper_assignments(self):
@@ -46,6 +50,18 @@ class ZooManager(Staff):
                     print(f'{animal.name} - {animal.species}')
                 else:
                     print('No animals currently assigned to this enclosure.\n')
+
+    def animal_report(self):
+        if not Animal.animal_list:
+            print('No animals are registered in the zoo.')
+            return
+        print('Animals Report:')
+        for animal in Animal.animal_list:
+            enclosure = animal.enclosure.name
+            if animal.enclosure:
+                print(f'\n{animal.name} - {animal.species} is housed in {enclosure.name}')
+            else:
+                print(f'\n{animal.name} - {animal.species} does not have enclosures.')
 
     def assign_animal_to_enclosure(self, animal, enclosure):
         if animal is None:
