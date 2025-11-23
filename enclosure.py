@@ -10,10 +10,12 @@ from species_data import ENVIRONMENT_SIZE, REPTILE_OPENAIR_SPECIES, REPTILE_VIVA
 from mammal import Mammal
 from reptile import Reptile
 from bird import Bird
+import zoo_manager
 
 
 class Enclosure:
     ALLOWED_SIZES = ['extra small', 'small', 'medium', 'large', 'extra large']
+    enclosure_list = []
 
     def __init__(self, name: str, size, environment, cleanliness=100):
         self.__name = name
@@ -25,6 +27,8 @@ class Enclosure:
         self.__inhabitants = []
         self.__species_in_enclosure = None
         self._food_level = 0
+
+        Enclosure.enclosure_list.append(self)
 
     def __str__(self):
         inhabitants_string = '\n'.join(str(animal) for animal in self.__inhabitants) if self.__inhabitants else 'No inhabitants'

@@ -10,6 +10,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from datetime import date
 
+import zoo_manager
 from species_data import *
 
 # Define Grandparent class of Animal.
@@ -49,6 +50,8 @@ class Animal(ABC):
         self.__gender = gender.lower()
         self.__is_mother = is_mother
         self.__enclosure = None
+        self.__original_enclosure = None
+        self.__in_good_health = True
 
     def __str__(self):
         return (f'Name: {self.__name}\n'
@@ -121,6 +124,24 @@ class Animal(ABC):
     def enclosure(self, enclosure):
         self.__enclosure = enclosure
 
+    @property
+    def original_enclosure(self):
+        return self.__original_enclosure
+
+    @original_enclosure.setter
+    def original_enclosure(self, original_enclosure):
+        self.__original_enclosure = original_enclosure
+
+    @property
+    def in_good_health(self):
+        return self.__in_good_health
+
+    @in_good_health.setter
+    def in_good_health(self, in_good_health):
+        if not isinstance(in_good_health, bool):
+            raise TypeError('in_good_health must be a boolean')
+        self.__in_good_health = in_good_health
+
     def eat(self, enclosure: 'Enclosure'):
         if not self.enclosure:
             raise ValueError(f'{self.name} does not have an enclosure')
@@ -137,3 +158,9 @@ class Animal(ABC):
     @abstractmethod
     def sleep(self):
         pass
+
+    def update_health_status(self, severity: int, zoo_manager: zoo_manager.ZooManager):
+        if severity >= 3 and self.in_good_health:
+            zoo_manager.move_animal_to_hospital(self)
+        elif severity >= 2 and not self.in_good_health:
+            zoo_manager.move_animal_out_of_hospital(self)
