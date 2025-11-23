@@ -55,4 +55,8 @@ class TestEnclosure:
         assert open_air_aquatic.appropriate_species(python) is False
         assert open_air_aquatic.appropriate_species(lion) is False
 
-
+    def test_cleaning_required(self, open_air, aviary, vivarium, open_air_aquatic):
+        assert open_air.cleaning_required() is False
+        assert aviary.cleaning_required() is True
+        assert vivarium.cleaning_required() is True
+        assert open_air_aquatic.cleaning_required() is True
