@@ -10,7 +10,7 @@ from species_data import ENVIRONMENT_SIZE, REPTILE_OPENAIR_SPECIES, REPTILE_VIVA
 from mammal import Mammal
 from reptile import Reptile
 from bird import Bird
-import zoo_manager
+
 
 
 class Enclosure:

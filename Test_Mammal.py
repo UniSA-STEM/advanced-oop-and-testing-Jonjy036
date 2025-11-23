@@ -1,6 +1,5 @@
 import pytest
 from datetime import date
-import animal
 import mammal
 
 class TestMammal:

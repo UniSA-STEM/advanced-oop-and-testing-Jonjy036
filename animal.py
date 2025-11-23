@@ -10,7 +10,6 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from datetime import date
 
-import zoo_manager
 from species_data import *
 
 # Define Grandparent class of Animal.
@@ -159,7 +158,8 @@ class Animal(ABC):
     def sleep(self):
         pass
 
-    def update_health_status(self, severity: int, zoo_manager: zoo_manager.ZooManager):
+    def update_health_status(self, severity: int, zoo_manager: 'zoo_manager.ZooManager'):
+        import zoo_manager
         if severity >= 3 and self.in_good_health:
             zoo_manager.move_animal_to_hospital(self)
         elif severity >= 2 and not self.in_good_health:

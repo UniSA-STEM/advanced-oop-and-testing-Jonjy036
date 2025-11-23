@@ -7,7 +7,6 @@ Username: jonjy036
 This is my own work as defined by the University's Academic Integrity Policy.
 '''
 from staff import Staff
-from animal import Animal
 from datetime import date
 
 class Veterinarian(Staff):

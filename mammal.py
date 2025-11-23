@@ -8,7 +8,6 @@ This is my own work as defined by the University's Academic Integrity Policy.
 '''
 from abc import abstractmethod
 from animal import Animal
-from datetime import date
 
 class Mammal(Animal):
     def __init__(self, name, species, dob, gender, is_mother):

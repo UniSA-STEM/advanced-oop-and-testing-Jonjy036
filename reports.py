@@ -7,12 +7,12 @@ Username: jonjy036
 This is my own work as defined by the University's Academic Integrity Policy.
 '''
 from datetime import date
-from animal import Animal
 
 class Report:
     ALLOWED_REPORT_TYPES = ['injury', 'illness', 'behaviour']
 
     def __init__(self, animal, report_type, description:str, date_reported:date, severity: int, treatment_plan: str, notes: str):
+        from animal import Animal
         if not isinstance(animal, Animal):
             raise TypeError(f'The animal must be an instance of Animal or a subclass of Animal')
 
