@@ -3,8 +3,8 @@ SPECIES_ENVIRONMENT = {
     'chimpanzee': 'forest',
     'dingo': 'outback',
     'crocodile': 'aquatic',
-    'python': 'forest vivarium',
-    'bearded dragon': 'desert vivarium',
+    'python': 'forest',
+    'bearded dragon': 'desert',
     'eagle': 'savannah',
     'kookaburra': 'forest',
     'penguin': 'aquatic'
@@ -33,3 +33,6 @@ SPECIES_DIETARY_NEEDS = {
     'kookaburra': ['insects', 'rodents'],
     'penguin': ['fish']
 }
+
+REPTILE_VIVARIUM_SPECIES = {'python', 'bearded dragon'}
+REPTILE_OPENAIR_SPECIES = {'crocodile'}

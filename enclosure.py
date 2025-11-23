@@ -6,7 +6,10 @@ ID: 110484756
 Username: jonjy036
 This is my own work as defined by the University's Academic Integrity Policy.
 '''
-from species_data import ENVIRONMENT_SIZE
+from species_data import ENVIRONMENT_SIZE, REPTILE_OPENAIR_SPECIES, REPTILE_VIVARIUM_SPECIES
+from mammal import Mammal
+from reptile import Reptile
+from bird import Bird
 
 
 class Enclosure:
@@ -78,6 +81,31 @@ class Enclosure:
         if self.size not in allowed_sizes:
             print(f'The enclosure is an incompatible size for {animal.name}')
             return False
+
+        elif isinstance(animal, Mammal):
+            if not isinstance(self, OpenAir):
+                print(f'Mammals such as {animal.name} must be housed in Open Air enclosures!')
+                return False
+
+        elif isinstance(animal, Bird):
+            if not isinstance(self, Aviary):
+                print(f'Birds such as {animal.name} must be housed in Aviary enclosures!')
+                return False
+
+        elif isinstance(animal, Reptile):
+            if isinstance(self, Vivarium):
+                if animal.species.lower() not in REPTILE_VIVARIUM_SPECIES:
+                    print(f'Animals such as {animal.species}s cannot be housed in a vivarium!')
+                    return False
+
+            elif isinstance(self, OpenAir):
+                if animal.species.lower() not in REPTILE_OPENAIR_SPECIES:
+                    print(f'Animals such as {animal.species}s cannot be housed in an open air enclosures!')
+                    return False
+
+            else:
+                print(f'Reptiles must be housed in either Open Air enclosures or Vivariums, depending on species.')
+
         return True
 
     def cleaning_required(self):
