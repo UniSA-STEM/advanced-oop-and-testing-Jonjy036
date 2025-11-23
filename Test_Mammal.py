@@ -7,35 +7,35 @@ class TestMammal:
 
     @pytest.fixture
     def male_lion(self):
-        return mammal.Lion("Simba", date(2020, 3, 21), "male")
+        return mammal.Lion('Simba', date(2020, 3, 21), 'male')
 
     @pytest.fixture
     def female_lion(self):
-        return mammal.Lion("Nala", date(2021, 11, 30), "female", True)
+        return mammal.Lion('Nala', date(2021, 11, 30), 'female', True)
 
     @pytest.fixture
     def male_chimpanzee(self):
-        return mammal.Chimpanzee("Bubbles", date(2011, 5, 5), "male")
+        return mammal.Chimpanzee('Bubbles', date(2011, 5, 5), 'male')
 
     @pytest.fixture
     def female_chimpanzee(self):
-        return mammal.Chimpanzee("Squeeks", date(2012, 10, 15), "female", False)
+        return mammal.Chimpanzee('Squeeks', date(2012, 10, 15), 'female', False)
 
     @pytest.fixture
     def male_dingo(self):
-        return mammal.Dingo("Bruce", date(2023, 3, 9), "male")
+        return mammal.Dingo('Bruce', date(2023, 3, 9), 'male')
 
     @pytest.fixture
     def female_dingo(self):
-        return mammal.Dingo("Sheila", date(2018, 1, 22), "female", True)
+        return mammal.Dingo('Sheila', date(2018, 1, 22), 'female', True)
 
     def test_mammal_initialization(self, male_lion, female_lion, male_chimpanzee, female_chimpanzee, male_dingo, female_dingo):
-        assert male_lion.name == "Simba"
-        assert female_lion.name == "Nala"
-        assert male_chimpanzee.name == "Bubbles"
-        assert female_chimpanzee.name == "Squeeks"
-        assert male_dingo.name == "Bruce"
-        assert female_dingo.name == "Sheila"
+        assert male_lion.name == 'Simba'
+        assert female_lion.name == 'Nala'
+        assert male_chimpanzee.name == 'Bubbles'
+        assert female_chimpanzee.name == 'Squeeks'
+        assert male_dingo.name == 'Bruce'
+        assert female_dingo.name == 'Sheila'
 
     def test_mammal_make_sound(self, male_lion, female_chimpanzee, female_dingo):
         assert male_lion.make_sound() == 'ROOOAAAARRRRR!!!!'
