@@ -63,3 +63,47 @@ class TestVeterinan:
         vet.perform_health_check(test_animal)
         reports = vet.get_all_reports()
         assert len(reports) == 0
+
+class TestZookeeper:
+
+    @pytest.fixture
+    def zookeeper(self):
+        return zookeeper.Zookeeper('John', 1003)
+
+    @pytest.fixture
+    def test_animal(self):
+        return mammal.Lion('Simba', date(2019, 12, 25), 'male')
+
+    @pytest.fixture
+    def test_enclosure(self):
+        enc = enclosure.OpenAir('testEnclosure', 'extra large', 'savannah')
+        enc._OpenAir__inhabitants = []
+        enc._OpenAir__food_level = 0
+        enc.cleanliness = 50
+        return enc
+
+    def test_clean_enclosure(self, zookeeper, test_enclosure):
+        zookeeper.clean_enclosure(test_enclosure)
+        assert test_enclosure.cleanliness == 100
+
+
+    def test_clean_enclosure_invalid(self, zookeeper):
+        with pytest.raises(ValueError):
+            zookeeper.clean_enclosure(None)
+
+    def test_feed_animals(self, zookeeper, test_enclosure, test_animal):
+        test_enclosure.inhabitants.append(test_animal)
+        zookeeper.feed_animals(test_enclosure.inhabitants, test_enclosure)
+        expected_food_level = len(test_enclosure.inhabitants)
+        assert test_enclosure.food_level == expected_food_level
+
+    def test_feed_enclosure_no_inhabitants(self, zookeeper, test_enclosure):
+        test_enclosure._OpenAir__inhabitants = []
+        test_enclosure._OpenAir__food_level = 0
+        zookeeper.feed_animals(test_enclosure.inhabitants, test_enclosure)
+        assert test_enclosure.food_level == 0
+
+    def test_feed_enclosure_no_enclosure(self, zookeeper, test_enclosure):
+        with pytest.raises(ValueError):
+            zookeeper.feed_animals([],None)
+
