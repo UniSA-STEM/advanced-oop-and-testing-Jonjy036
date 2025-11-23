@@ -107,3 +107,104 @@ class TestZookeeper:
         with pytest.raises(ValueError):
             zookeeper.feed_animals([],None)
 
+class TestZooManager:
+
+    @pytest.fixture
+    def manager(self):
+        return zoo_manager.ZooManager('Simone', 1000)
+
+    @pytest.fixture
+    def test_animal(self):
+        return mammal.Lion('Simba', date(2019, 12, 25), 'male')
+
+    @pytest.fixture
+    def test_enclosure(self):
+        enc = enclosure.OpenAir('testEnclosure', 'extra large', 'savannah')
+        enc._OpenAir__inhabitants = []
+        return enc
+
+    @pytest.fixture
+    def keeper(self):
+        return zookeeper.Zookeeper('John', 1003)
+
+    def test_zoo_manager_initialization(self, manager):
+        assert manager is not None
+        assert manager.name == 'Simone'
+        assert manager.staff_number == 1000
+        assert isinstance(manager.zookeeper_assignments, dict)
+        assert len(manager.zookeeper_assignments) == 0
+
+    def test_assign_and_remove_animal(self, manager, test_enclosure, test_animal):
+        result = manager.assign_animal_to_enclosure(test_animal, test_enclosure)
+        assert result is True
+        assert test_animal in test_enclosure.inhabitants
+        assert test_animal.enclosure == test_enclosure
+
+        result2 = manager.assign_animal_to_enclosure(test_animal, test_enclosure)
+        assert result2 is False
+        assert test_enclosure.inhabitants.count(test_animal) == 1
+
+        result3 = manager.remove_animal_from_enclosure(test_animal, test_enclosure)
+        assert result3 is True
+        assert test_animal not in test_enclosure.inhabitants
+        assert test_animal.enclosure is None
+
+    def test_assign_animal_invalid(self, manager, test_enclosure, test_animal):
+        with pytest.raises(AttributeError):
+            manager.assign_animal_to_enclosure(None, test_enclosure)
+        with pytest.raises(AttributeError):
+            manager.assign_animal_to_enclosure(test_animal, None)
+
+    def test_remove_animal_empty_enclosure(self, manager, test_animal, test_enclosure):
+        test_enclosure._OpenAir__inhabitants = []
+        result = manager.remove_animal_from_enclosure(test_animal, test_enclosure)
+        assert result is False
+
+    def test_remove_animal_invalid(self, manager, test_enclosure, test_animal):
+        with pytest.raises(AttributeError):
+            manager.remove_animal_from_enclosure(None, test_enclosure)
+        with pytest.raises(AttributeError):
+            manager.remove_animal_from_enclosure(test_animal, None)
+
+    def test_assign_zookeeper_to_enclosure(self, manager, keeper, test_enclosure):
+        manager.assign_zookeeper_to_enclosure(keeper, test_enclosure)
+        assignments = manager.zookeeper_assignments
+        assert keeper in assignments
+        assert test_enclosure in assignments[keeper]
+
+    def test_assign_zookeeper_duplication(self, manager, keeper, test_enclosure):
+        manager.assign_zookeeper_to_enclosure(keeper, test_enclosure)
+        manager.assign_zookeeper_to_enclosure(keeper, test_enclosure)
+        assignments = manager.zookeeper_assignments
+        assert assignments[keeper].count(test_enclosure) == 1
+
+    def test_assign_zookeeper_invalid(self, manager, keeper, test_enclosure):
+        with pytest.raises(AttributeError):
+            manager.assign_zookeeper_to_enclosure(None, test_enclosure)
+        with pytest.raises(AttributeError):
+            manager.assign_zookeeper_to_enclosure(keeper, None)
+
+    def test_remove_zookeeper_assignment(self, manager, keeper, test_enclosure):
+        manager.assign_zookeeper_to_enclosure(keeper, test_enclosure)
+        result = manager.remove_zookeeper_assignment(keeper, test_enclosure)
+        assert result is True
+        assert keeper not in manager.zookeeper_assignments
+
+    def test_remove_zookeeper_not_assigned(self, manager, keeper, test_enclosure):
+        result = manager.remove_zookeeper_assignment(keeper, test_enclosure)
+        assert result is False
+
+    def test_remove_zookeeper_invalid(self, manager, keeper, test_enclosure):
+        with pytest.raises(AttributeError):
+            manager.remove_zookeeper_assignment(None, test_enclosure)
+        with pytest.raises(AttributeError):
+            manager.remove_zookeeper_assignment(keeper, None)
+
+    def test_get_enclosures_for_zookeeper(self, manager, keeper, test_enclosure):
+        manager.assign_zookeeper_to_enclosure(keeper, test_enclosure)
+        enclosures = manager.get_enclosures_for_zookeeper(keeper)
+        assert enclosures == [test_enclosure]
+
+    def test_get_enclosures_for_zookeeper_no_assignments(self, manager, keeper):
+        enclosures = manager.get_enclosures_for_zookeeper(keeper)
+        assert enclosures == []

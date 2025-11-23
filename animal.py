@@ -117,6 +117,10 @@ class Animal(ABC):
     def enclosure(self):
         return self.__enclosure
 
+    @enclosure.setter
+    def enclosure(self, enclosure):
+        self.__enclosure = enclosure
+
     def eat(self, enclosure: 'Enclosure'):
         if not self.enclosure:
             raise ValueError(f'{self.name} does not have an enclosure')

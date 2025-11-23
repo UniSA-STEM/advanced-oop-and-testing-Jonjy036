@@ -66,6 +66,10 @@ class Enclosure:
     def species_in_enclosure(self):
         return self.__species_in_enclosure
 
+    @species_in_enclosure.setter
+    def species_in_enclosure(self, species):
+        self.__species_in_enclosure = species
+
     @property
     def food_level(self):
         return self._food_level
