@@ -23,7 +23,7 @@ class Veterinarian(Staff):
             return
 
         report_type = input('What type of report do you want to make? (injury/illness/behaviour): ').lower()
-        if report_type != self.ALLOWED_REPORT_TYPES:
+        if report_type not in self.ALLOWED_REPORT_TYPES:
             print(f'invalid report type: {report_type}. Report not created.')
             return
 
