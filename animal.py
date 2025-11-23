@@ -6,10 +6,10 @@ ID: 110484756
 Username: jonjy036
 This is my own work as defined by the University's Academic Integrity Policy.
 '''
+from __future__ import annotations
 from abc import ABC, abstractmethod
 from datetime import date
 
-from enclosure import Enclosure
 from species_data import *
 
 # Define Grandparent class of Animal.
@@ -117,7 +117,7 @@ class Animal(ABC):
     def enclosure(self):
         return self.__enclosure
 
-    def eat(self, enclosure: Enclosure):
+    def eat(self, enclosure: 'Enclosure'):
         if not self.enclosure:
             raise ValueError(f'{self.name} does not have an enclosure')
         if self.enclosure._food_level <= 0:
