@@ -208,3 +208,19 @@ class TestZooManager:
     def test_get_enclosures_for_zookeeper_no_assignments(self, manager, keeper):
         enclosures = manager.get_enclosures_for_zookeeper(keeper)
         assert enclosures == []
+
+    def test_move_animal_to_hospital_and_remove(self, manager, test_animal, test_enclosure):
+        manager.assign_animal_to_enclosure(test_animal, test_enclosure)
+        assert test_animal in test_enclosure.inhabitants
+        assert test_animal.enclosure == test_enclosure
+
+        manager.move_animal_to_hospital(test_animal)
+        assert test_animal not in test_enclosure.inhabitants
+        assert test_animal in manager.hospital_list
+        assert test_animal.in_good_health is False
+        assert test_animal.original_enclosure == test_enclosure
+
+        manager.move_animal_out_of_hospital(test_animal)
+        assert test_animal not in manager.hospital_list
+        assert test_animal in test_enclosure.inhabitants
+        assert test_animal.in_good_health is True

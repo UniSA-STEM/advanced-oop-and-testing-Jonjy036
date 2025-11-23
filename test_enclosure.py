@@ -25,6 +25,10 @@ class TestEnclosure:
         return enclosure.OpenAir('openair2', 'large', 'aquatic', cleanliness=25)
 
     @pytest.fixture
+    def aviary_2(self):
+        return enclosure.Aviary('aviary_2', 'medium', 'forest', cleanliness=80)
+
+    @pytest.fixture
     def lion(self):
         return mammal.Lion('Simba', date(2020, 3, 21), 'male')
 
@@ -55,8 +59,9 @@ class TestEnclosure:
         assert open_air_aquatic.appropriate_species(python) is False
         assert open_air_aquatic.appropriate_species(lion) is False
 
-    def test_cleaning_required(self, open_air, aviary, vivarium, open_air_aquatic):
+    def test_cleaning_required(self, open_air, aviary, vivarium, open_air_aquatic, aviary_2):
         assert open_air.cleaning_required() is False
         assert aviary.cleaning_required() is True
         assert vivarium.cleaning_required() is True
         assert open_air_aquatic.cleaning_required() is True
+        assert aviary_2.cleaning_required() is False

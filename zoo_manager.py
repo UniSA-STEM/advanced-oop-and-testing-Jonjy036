@@ -8,7 +8,7 @@ This is my own work as defined by the University's Academic Integrity Policy.
 '''
 from staff import Staff
 from enclosure import Enclosure
-import animal
+
 
 
 class ZooManager(Staff):
