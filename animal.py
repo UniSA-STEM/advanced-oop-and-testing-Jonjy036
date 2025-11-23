@@ -158,9 +158,3 @@ class Animal(ABC):
     def sleep(self):
         pass
 
-    def update_health_status(self, severity: int, zoo_manager: 'zoo_manager.ZooManager'):
-        import zoo_manager
-        if severity >= 3 and self.in_good_health:
-            zoo_manager.move_animal_to_hospital(self)
-        elif severity >= 2 and not self.in_good_health:
-            zoo_manager.move_animal_out_of_hospital(self)

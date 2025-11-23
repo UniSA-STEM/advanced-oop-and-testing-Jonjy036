@@ -8,6 +8,7 @@ This is my own work as defined by the University's Academic Integrity Policy.
 '''
 from staff import Staff
 from enclosure import Enclosure
+import animal
 
 
 class ZooManager(Staff):
@@ -115,6 +116,12 @@ class ZooManager(Staff):
 
     def get_enclosures_for_zookeeper(self, zookeeper):
         return self._zookeeper_assignments.get(zookeeper, [])
+
+    def update_health_status(self, animal, severity: int):
+        if severity >= 3 and animal.in_good_health:
+            self.move_animal_to_hospital(animal)
+        elif severity >= 2 and not animal.in_good_health:
+            self.move_animal_out_of_hospital(animal)
 
     def move_animal_to_hospital(self, animal):
         if animal.enclosure and animal in animal.enclosure.inhabitants:
