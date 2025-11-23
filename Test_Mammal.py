@@ -1,5 +1,5 @@
 '''
-File: Test_Mammal.py
+File: test_mammal.py
 Description: the mammal testing module for the advanced OOP and Testing Assignment.
 Author: Jozef Jones
 ID: 110484756
