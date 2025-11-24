@@ -82,11 +82,23 @@ def enclosure_assignment(manager: ZooManager, animals, enclosures):
 
 def main():
 
+    print('***Creating a manager***')
     manager = create_manager()
-    animals = create_animals()
-    enclosures = create_enclosures()
+    print_zoo_reports(manager)
 
+    print('\n***Creating animals***')
+    animals = create_animals()
+    print_zoo_reports(manager)
+
+    print('\n***Creating enclosures***')
+    enclosures = create_enclosures()
+    print_zoo_reports(manager)
+
+    print('\n***Assigning animals to enclosures***')
     enclosure_assignment(manager, animals, enclosures)
+    print_zoo_reports(manager)
+
+
 
 if __name__ == '__main__':
     main()

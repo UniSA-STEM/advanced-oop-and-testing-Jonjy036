@@ -38,30 +38,28 @@ class ZooManager(Staff):
 
     def enclosure_report(self):
         if not Enclosure.enclosure_list:
-            print('No enclosures available')
+            print('\nNo enclosures available')
             return
 
-        print('Enclosures Report:')
+        print('\nEnclosures Report:')
         for enclosure in Enclosure.enclosure_list:
-            print(f'\nEnclosure {enclosure.name} is a {enclosure.size} {enclosure.environment} environment.')
-            if enclosure.inhabitants:
-                print('Animals: ')
+            if not enclosure.inhabitants:
+                print(f'Enclosure {enclosure.name} has no inhabitants.\n')
+            else:
+                print(f'Enclosure {enclosure.name} houses: ')
                 for animal in enclosure.inhabitants:
-                    print(f'{animal.name} - {animal.species}')
-                else:
-                    print('No animals currently assigned to this enclosure.\n')
+                    print(f'{animal.name} - {animal.species}\n')
 
     def animal_report(self):
         if not Animal.animal_list:
-            print('No animals are registered in the zoo.')
+            print('\nNo animals are registered in the zoo.')
             return
-        print('Animals Report:')
+        print('\nAnimals Report:')
         for animal in Animal.animal_list:
-            enclosure = animal.enclosure.name
-            if animal.enclosure:
-                print(f'\n{animal.name} - {animal.species} is housed in {enclosure.name}')
+            if animal.enclosure is None:
+                print(f'{animal.name} - {animal.species} does not have an enclosure.  (PLEASE RECTIFY)\n')
             else:
-                print(f'\n{animal.name} - {animal.species} does not have enclosures.')
+                print(f'{animal.name} - {animal.species} is housed in {animal.enclosure.name}\n')
 
     def assign_animal_to_enclosure(self, animal, enclosure):
         if animal is None:
