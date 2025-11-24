@@ -12,11 +12,12 @@ from datetime import date
 
 from species_data import *
 
+
 # Define Abstract Grandparent class of Animal.
 class Animal(ABC):
     animal_list = []
 
-    def __init__(self, name: str, species: str, dob: date, gender: str, is_mother: bool=False):
+    def __init__(self, name: str, species: str, dob: date, gender: str, is_mother: bool = False):
 
         """
         Initialize an instance of Animal.
@@ -160,7 +161,7 @@ class Animal(ABC):
             raise TypeError('in_good_health must be a boolean')
         self.__in_good_health = in_good_health
 
-    def eat(self, enclosure: 'Enclosure'):    # string hint used to counter unresolved without circular reference.
+    def eat(self, enclosure: 'Enclosure'):  # string hint used to counter unresolved without circular reference.
         if not self.enclosure:
             raise ValueError(f'{self.name} does not have an enclosure')
         if self.enclosure._food_level <= 0:
@@ -176,4 +177,3 @@ class Animal(ABC):
     @abstractmethod
     def sleep(self):
         pass
-

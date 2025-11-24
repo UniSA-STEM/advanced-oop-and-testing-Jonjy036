@@ -1,16 +1,23 @@
-'''
+"""
 File: staff.py
 Description: the staff module for the advanced OOP and Testing Assignment.
 Author: Jozef Jones
 ID: 110484756
 Username: jonjy036
 This is my own work as defined by the University's Academic Integrity Policy.
-'''
+"""
 from reports import Report
 
 class Staff:
     ALLOWED_REPORT_TYPES = ['injury', 'illness', 'behaviour']
 
+    """
+    initilise the parent class Staff.
+    
+    name = name of staff (full name)
+    staff_number = a number created to identify the staff member
+    reports = a dictionary holding all reports created by vets or zookeepers.
+    """
     def __init__(self, name: str, staff_number: int):
         self.__name = name
         self.__staff_number = staff_number
@@ -19,7 +26,7 @@ class Staff:
     def __str__(self):
         return (f'Name: {self.__name}\n'
                 f'Staff number: {self.__staff_number}\n')
-
+    """getters and setters for private attributes as required."""
     @property
     def name(self):
         return self.__name
@@ -34,6 +41,7 @@ class Staff:
 
     def report(self, animal, report_type, description, date_reported, severity,
                treatment_plan='', notes=''):
+        """reports allowing to define status of animals"""
         report_type_lower = report_type.lower()
         if report_type_lower not in self.ALLOWED_REPORT_TYPES:
             raise ValueError(f'Report type must be one of {self.ALLOWED_REPORT_TYPES}')
@@ -55,6 +63,7 @@ class Staff:
         print(f'{report_type_lower} report added for {animal.name} by {self.name}.')
 
     def get_all_reports(self):
+        """get all the staff reports on animal welfare"""
         all_reports = []
         for reports in self.__reports.values():
             all_reports.extend(reports)

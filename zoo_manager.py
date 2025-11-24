@@ -1,20 +1,30 @@
-'''
+"""
 File: zoo_manager.py
 Description: the ZooManager child module (Staff) for the advanced OOP and Testing Assignment.
 Author: Jozef Jones
 ID: 110484756
 Username: jonjy036
 This is my own work as defined by the University's Academic Integrity Policy.
-'''
+"""
 from staff import Staff
 from enclosure import Enclosure
 from animal import Animal
 
 
 class ZooManager(Staff):
+    """
+        initilise the child class of Staff - ZooManager.
+
+        name = name of staff (full name)
+        staff_number = a number created to identify the staff member
+        zookeeper_assignments = keep track of which keepers are assigned where.
+        """
+
     def __init__(self, name, staff_number):
         super().__init__(name, staff_number)
         self._zookeeper_assignments = {}
+
+    """getters and setters for private attributes"""
 
     @property
     def enclosure_list(self):
@@ -29,6 +39,7 @@ class ZooManager(Staff):
         return {zookeeper: list(enclosures) for zookeeper, enclosures in self._zookeeper_assignments.items()}
 
     def enclosure_report(self):
+        """provide a list of existing enclosures, and which animals are inhabiting"""
         if not Enclosure.enclosure_list:
             print('\nNo enclosures available')
             return
@@ -43,6 +54,7 @@ class ZooManager(Staff):
                     print(f'{animal.name} - {animal.species}\n')
 
     def animal_report(self):
+        """provide a list of existing animals, and which enclosures they are in."""
         if not Animal.animal_list:
             print('\nNo animals are registered in the zoo.')
             return
@@ -54,13 +66,15 @@ class ZooManager(Staff):
                 print(f'{animal.name} - {animal.species} is housed in {animal.enclosure.name}\n')
 
     def assign_animal_to_enclosure(self, animal, enclosure):
+        """ZooManager can assign animals to enclosures within the boundaries of the restrictions"""
         if animal is None:
             raise AttributeError(f'There is no record of {animal} at the zoo.')
         if enclosure is None:
             raise AttributeError(f'There is no record of {enclosure} at the zoo.')
+        """restrictions of size and environment as well as existing inhabitant species"""
         if not enclosure.appropriate_species(animal):
-           print(f'{animal.name} was not assigned to the enclosure')
-           return False
+            print(f'{animal.name} was not assigned to the enclosure')
+            return False
 
         if animal not in enclosure.inhabitants:
             enclosure.inhabitants.append(animal)
@@ -72,6 +86,7 @@ class ZooManager(Staff):
             return False
 
     def remove_animal_from_enclosure(self, animal, enclosure):
+        """remove an animal from enclosure"""
         if animal is None:
             raise AttributeError(f'There is no record of {animal} at the zoo.')
         if enclosure is None:
@@ -90,6 +105,7 @@ class ZooManager(Staff):
             return False
 
     def assign_zookeeper_to_enclosure(self, zookeeper, enclosure):
+        """assign a zookeeper to an enclosure"""
         if zookeeper is None or enclosure is None:
             raise AttributeError("Zookeeper and enclosure must be specified.")
 
@@ -103,6 +119,7 @@ class ZooManager(Staff):
             print(f"Zookeeper {zookeeper.name} is already assigned to enclosure {enclosure.name}.")
 
     def remove_zookeeper_assignment(self, zookeeper, enclosure):
+        """remove a zookeeper from an enclosure"""
         if zookeeper is None or enclosure is None:
             raise AttributeError("Zookeeper and enclosure must be specified.")
 
@@ -121,8 +138,10 @@ class ZooManager(Staff):
             return False
 
     def get_enclosures_for_zookeeper(self, zookeeper):
+        """return current assignments for zookeeper"""
         return self._zookeeper_assignments.get(zookeeper, [])
 
     def add_enclosure(self, enclosure):
+        """create an enclosure"""
         if enclosure not in enclosure.enclosure_list:
             enclosure.enclosure_list.append(enclosure)
