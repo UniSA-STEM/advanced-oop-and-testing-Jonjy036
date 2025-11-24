@@ -12,6 +12,13 @@ from datetime import date
 
 
 class Reptile(Animal):
+    """
+    Initialise an instance of a reptile.
+    species = species of the animal
+    dob = date of birth
+    gender = gender of the animal
+    is_mother = if the animal is mother (boolean) - Default is false
+    """
     def __init__(self, name, species, dob, gender, is_mother):
         super().__init__(name, species, dob, gender, is_mother)
 

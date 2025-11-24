@@ -1,22 +1,36 @@
-'''
+"""
 File: animal.py
 Description: the animal module for the advanced OOP and Testing Assignment.
 Author: Jozef Jones
 ID: 110484756
 Username: jonjy036
 This is my own work as defined by the University's Academic Integrity Policy.
-'''
+"""
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from datetime import date
 
 from species_data import *
 
-# Define Grandparent class of Animal.
+# Define Abstract Grandparent class of Animal.
 class Animal(ABC):
     animal_list = []
 
     def __init__(self, name: str, species: str, dob: date, gender: str, is_mother: bool=False):
+
+        """
+        Initialize an instance of Animal.
+
+        name = name of the animal
+        species = species of the animal
+        dob = date of birth
+        gender = gender of the animal
+        is_mother = if the animal is mother (boolean) - Default is false
+
+        Raises:
+            TypeError
+            ValueError
+        """
 
         # Validate parameters.
         if not isinstance(name, str):
@@ -44,7 +58,7 @@ class Animal(ABC):
 
         if not isinstance(is_mother, bool):
             raise TypeError('is_mother must be a boolean')
-
+        # Initialize private variables.
         self.__name = name
         self.__species = species
         self.__dob = dob
@@ -54,6 +68,7 @@ class Animal(ABC):
         self.__original_enclosure = None
         self.__in_good_health = True
 
+        # Adds to the animal list held by ZooManager.
         Animal.animal_list.append(self)
 
     def __str__(self):
@@ -67,7 +82,7 @@ class Animal(ABC):
                 f'Enclosure: {self.__enclosure}\n'
                 f'Dietary needs: {self.dietary_needs}\n\n')
 
-    # Add property decorators for getters and setters.
+    # Property decorators for getters and setters.
     @property
     def name(self):
         return self.__name
@@ -145,7 +160,7 @@ class Animal(ABC):
             raise TypeError('in_good_health must be a boolean')
         self.__in_good_health = in_good_health
 
-    def eat(self, enclosure: 'Enclosure'):
+    def eat(self, enclosure: 'Enclosure'):    # string hint used to counter unresolved without circular reference.
         if not self.enclosure:
             raise ValueError(f'{self.name} does not have an enclosure')
         if self.enclosure._food_level <= 0:
