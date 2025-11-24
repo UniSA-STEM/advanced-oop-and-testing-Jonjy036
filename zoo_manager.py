@@ -15,7 +15,6 @@ class ZooManager(Staff):
     def __init__(self, name, staff_number):
         super().__init__(name, staff_number)
         self._zookeeper_assignments = {}
-        self._hospital_list = []
 
     @property
     def enclosure_list(self):
@@ -28,13 +27,6 @@ class ZooManager(Staff):
     @property
     def zookeeper_assignments(self):
         return {zookeeper: list(enclosures) for zookeeper, enclosures in self._zookeeper_assignments.items()}
-
-    @property
-    def hospital_list(self):
-        return self._hospital_list
-    @hospital_list.setter
-    def hospital_list(self, hospital_list):
-        self._hospital_list = hospital_list
 
     def enclosure_report(self):
         if not Enclosure.enclosure_list:
@@ -130,27 +122,6 @@ class ZooManager(Staff):
 
     def get_enclosures_for_zookeeper(self, zookeeper):
         return self._zookeeper_assignments.get(zookeeper, [])
-
-    def update_health_status(self, animal, severity: int):
-        if severity >= 3 and animal.in_good_health:
-            self.move_animal_to_hospital(animal)
-        elif severity >= 2 and not animal.in_good_health:
-            self.move_animal_out_of_hospital(animal)
-
-    def move_animal_to_hospital(self, animal):
-        if animal.enclosure and animal in animal.enclosure.inhabitants:
-            animal.original_enclosure = animal.enclosure
-            self.remove_animal_from_enclosure(animal, animal.enclosure)
-        if animal not in self.hospital_list:
-            self.hospital_list.append(animal)
-        animal.in_good_health = False
-
-    def move_animal_out_of_hospital(self, animal):
-        if animal in self.hospital_list:
-            self.hospital_list.remove(animal)
-        if hasattr(animal, 'original_enclosure') and animal.original_enclosure is not None:
-            self.assign_animal_to_enclosure(animal, animal.original_enclosure)
-        animal.in_good_health = True
 
     def add_enclosure(self, enclosure):
         if enclosure not in enclosure.enclosure_list:

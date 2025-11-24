@@ -19,7 +19,7 @@ class Zookeeper(Staff):
         print(f'{self.name} cleaning enclosure {enclosure.name}')
         enclosure.cleanliness = 100
 
-    def feed_animals(self, animals, enclosure: Enclosure):
+    def feed_animals(self, enclosure: Enclosure):
         if enclosure is None:
             raise ValueError(f'{enclosure} is not a valid enclosure')
 

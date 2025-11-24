@@ -51,8 +51,8 @@ def create_enclosures():
     lion_enclosure = OpenAir('Lion Enclosure', 'extra large', 'savannah', 45)
     forest_paddock = OpenAir('Forest Paddock', 'large', 'forest', 80)
     croc_creek = OpenAir('Croc Creek', 'large', 'aquatic', 25)
-    snake_city = Vivarium('snake_city', 'medium', 'forest', 90)
-    dragon_lair = Vivarium('dragon_lair', 'small', 'desert', 60)
+    snake_city = Vivarium('Snake City', 'medium', 'forest', 90)
+    dragon_lair = Vivarium('Dragon Lair', 'small', 'desert', 60)
     birds_nest = Aviary('Birds Nest', 'large', 'savannah', 70)
     penguin_pool = Aviary('Penguin Pool', 'large', 'aquatic', 55)
     return lion_enclosure, forest_paddock, croc_creek, snake_city, dragon_lair, birds_nest, penguin_pool
@@ -80,6 +80,62 @@ def enclosure_assignment(manager: ZooManager, animals, enclosures):
     ]:
         manager.assign_animal_to_enclosure(animal, enclosure)
 
+def staff_assignment(manager: ZooManager, staff, enclosures):
+    '''Assign staffs to enclosures.'''
+    keeper_1, keeper_2, _ = staff
+    lion_enclosure, forest_paddock, croc_creek, snake_city, dragon_lair, birds_nest, penguin_pool = enclosures
+
+    print('\nAssigning Staff to enclosures\n')
+    manager.assign_zookeeper_to_enclosure(keeper_1, lion_enclosure)
+    manager.assign_zookeeper_to_enclosure(keeper_1, croc_creek)
+    manager.assign_zookeeper_to_enclosure(keeper_2, birds_nest)
+    manager.assign_zookeeper_to_enclosure(keeper_2, penguin_pool)
+
+def check_cleaning(enclosures):
+    '''Check if enclosures need cleaning.'''
+    lion_enclosure, forest_paddock, croc_creek, snake_city, dragon_lair, birds_nest, penguin_pool = enclosures
+
+    print('\nChecking for enclosures which need to be cleaned\n')
+    for enclosure in enclosures:
+        enclosure.cleaning_required()
+
+def feeding_activities(staff, animals, enclosures):
+    '''Perform feeding activities'''
+    keeper_1, keeper_2, _ = staff
+    simba, nala, snappy, monty, drogon, eddi, koko, pingu = animals
+    lion_enclosure, forest_paddock, croc_creek, snake_city, dragon_lair, birds_nest, penguin_pool = enclosures
+
+    print('Feeding time!')
+
+    keeper_1.feed_animals(lion_enclosure)
+    print(simba.eat(simba.enclosure))
+    print(nala.eat(nala.enclosure))
+    print(simba.eat(simba.enclosure))
+    print(drogon.eat(drogon.enclosure))
+
+def health_checks(vet, animals, zoo_manager):
+    '''Perform health checks'''
+    simba = animals[0]
+    nala = animals[1]
+
+    vet.perform_health_check(simba, zoo_manager)
+
+    print('\nhospital list:')
+    if len(vet.hospital_list) > 0:
+        for animal in vet.hospital_list:
+            print(animal.name)
+    else:
+        print('\nno animals are in hospital\n')
+
+    vet.perform_health_check(nala, zoo_manager)
+
+    print('\nhospital list:')
+    if len(vet.hospital_list) > 0:
+        for animal in vet.hospital_list:
+            print(animal.name)
+    else:
+        print('\nno animals are in hospital\n')
+
 def main():
 
     print('***Creating a manager***')
@@ -88,15 +144,37 @@ def main():
 
     print('\n***Creating animals***')
     animals = create_animals()
+    simba, nala, snappy, monty, drogon, eddi, koko, pingu = animals
     print_zoo_reports(manager)
 
     print('\n***Creating enclosures***')
     enclosures = create_enclosures()
+    lion_enclosure, forest_paddock, croc_creek, snake_city, dragon_lair, birds_nest, penguin_pool = enclosures
     print_zoo_reports(manager)
 
     print('\n***Assigning animals to enclosures***')
     enclosure_assignment(manager, animals, enclosures)
     print_zoo_reports(manager)
+
+    print('\n***Creating staff***')
+    staff = create_staff()
+    keeper_1, keeper_2, vet = staff
+
+    print('\n***assinging keepers to enclosures***')
+    staff_assignment(manager, staff, enclosures)
+
+    print('\n***feeding and cleaning enclosures***')
+    check_cleaning(enclosures)
+    print('\n***Get Kevin (zookeeper1) to clean the lion enclosure.***')
+    keeper_1.clean_enclosure(lion_enclosure)
+    check_cleaning(enclosures)
+
+    feeding_activities(staff, animals, enclosures)
+
+    print('***health reporting and hospital transfer.***')
+    health_checks(vet, animals, manager)
+
+
 
 
 
