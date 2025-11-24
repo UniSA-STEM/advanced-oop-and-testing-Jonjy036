@@ -11,11 +11,23 @@ from mammal import Mammal
 from reptile import Reptile
 from bird import Bird
 
-
-
 class Enclosure:
     ALLOWED_SIZES = ['extra small', 'small', 'medium', 'large', 'extra large']
     enclosure_list = []
+
+    """
+        Initialise an instance of an enclosure.
+        
+        size = size of the enclosure - (extra small, small, medium, large and extra large)
+        environment = environment of the enclosure - current available envionments defined in species_data.py
+        cleanliness = cleanliness of the enclosure (0-100)
+        inhabitants = what animals reside in the enclosure
+        species_in_enclosure = used to ensure no species mixing in enclosures
+        food_level = used to establish feeding requirement
+        
+        Raises:
+            ValueError
+        """
 
     def __init__(self, name: str, size, environment, cleanliness=100):
         self.__name = name
@@ -79,6 +91,7 @@ class Enclosure:
         return self._food_level
 
     def appropriate_species(self, animal):
+        """check if thet enclosure can house specific species of animal"""
         if self.species_in_enclosure and animal.species.lower() != self.species_in_enclosure:
             print('An incompatible animal already lives here.')
             return False
@@ -102,12 +115,12 @@ class Enclosure:
 
         elif isinstance(animal, Reptile):
             if isinstance(self, Vivarium):
-                if animal.species.lower() not in REPTILE_VIVARIUM_SPECIES:
+                if animal.species.lower() not in REPTILE_VIVARIUM_SPECIES:  # found in species_data
                     print(f'Animals such as {animal.species}s cannot be housed in a vivarium!')
                     return False
 
             elif isinstance(self, OpenAir):
-                if animal.species.lower() not in REPTILE_OPENAIR_SPECIES:
+                if animal.species.lower() not in REPTILE_OPENAIR_SPECIES:   # found in species_data
                     print(f'Animals such as {animal.species}s cannot be housed in an open air enclosures!')
                     return False
 
@@ -117,6 +130,7 @@ class Enclosure:
         return True
 
     def cleaning_required(self):
+        """Check to see if the enclosure requires cleaning"""
         if self.cleanliness <= 30:
             print(f'The enclosure {self.name} needs to be cleaned up today!')
             return True

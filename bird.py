@@ -17,8 +17,6 @@ class Bird(Animal):
         dob = date of birth
         gender = gender of the animal
         is_mother = if the animal is mother (boolean) - Default is false
-
-        If is_mother is true, it allows for a mammal specific function - nurse_young
         """
     def __init__(self, name, species, dob, gender, is_mother):
         super().__init__(name, species, dob, gender, is_mother)
