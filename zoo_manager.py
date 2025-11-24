@@ -69,7 +69,7 @@ class ZooManager(Staff):
         if enclosure is None:
             raise AttributeError(f'There is no record of {enclosure} at the zoo.')
         if not enclosure.appropriate_species(animal):
-           print(f'{animal} was not assigned to the enclosure')
+           print(f'{animal.name} was not assigned to the enclosure')
            return False
 
         if animal not in enclosure.inhabitants:
