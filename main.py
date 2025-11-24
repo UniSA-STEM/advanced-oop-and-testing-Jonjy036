@@ -136,6 +136,18 @@ def health_checks(vet, animals, zoo_manager):
     else:
         print('\nno animals are in hospital\n')
 
+def health_check_nala_return(vet, animals, zoo_manager):
+    nala = animals[1]
+
+    vet.perform_health_check(nala, zoo_manager)
+
+    print('\nhospital list:')
+    if len(vet.hospital_list) > 0:
+        for animal in vet.hospital_list:
+            print(animal.name)
+    else:
+        print('\nno animals are in hospital\n')
+
 def main():
 
     print('***Creating a manager***')
@@ -171,11 +183,20 @@ def main():
 
     feeding_activities(staff, animals, enclosures)
 
-    print('***health reporting and hospital transfer.***')
+    print('***health reporting and hospital transfer in.***')
     health_checks(vet, animals, manager)
 
+    print('***health reporting and hospital transfer out.***')
+    health_check_nala_return(vet, animals, manager)
 
+    print('\n***Print reports***\n')
+    all_reports = vet.get_all_reports()
+    for report in all_reports:
+        print(report)
+        print()
 
+    print('\n***Final Zoo Report***\n')
+    print_zoo_reports(manager)
 
 
 if __name__ == '__main__':
