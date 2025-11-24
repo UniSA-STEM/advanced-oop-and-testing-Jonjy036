@@ -1,26 +1,22 @@
-'''
+"""
 File: main.py
 Description: the main module for the advanced OOP and Testing Assignment.
 Author: Jozef Jones
 ID: 110484756
 Username: jonjy036
 This is my own work as defined by the University's Academic Integrity Policy.
-'''
+"""
 from datetime import date
 
-from animal import Animal
-from mammal import Lion, Chimpanzee, Dingo
+from mammal import Lion
 from reptile import Python, BeardedDragon, Crocodile
 from bird import Eagle, Kookaburra, Penguin
 
 from enclosure import OpenAir, Vivarium, Aviary
 
-from staff import Staff
 from zookeeper import Zookeeper
 from zoo_manager import ZooManager
 from veterinarian import Veterinarian
-
-from reports import Report
 
 
 def create_manager():
@@ -28,7 +24,7 @@ def create_manager():
     return manager
 
 def create_animals():
-    '''Create a number of animals to be used in the demonstration of the system.'''
+    """Create a number of animals to be used in the demonstration of the system."""
     simba = Lion('Simba', date(2018, 5, 12),'male')
     nala = Lion('Nala', date(2018, 6, 2),'female', True)
     snappy = Crocodile('Snappy', date(2018, 5, 12), 'male')
@@ -40,14 +36,14 @@ def create_animals():
     return simba, nala, snappy, monty, drogon, eddi, koko, pingu
 
 def create_staff():
-    '''Create a number of staff to be used in the demonstration of the system.'''
+    """Create a number of staff to be used in the demonstration of the system."""
     keeper_1 = Zookeeper('Kevin', 1002)
     keeper_2 = Zookeeper('Karen', 1003)
     vet = Veterinarian('Vicky', 1004)
     return keeper_1, keeper_2, vet
 
 def create_enclosures():
-    '''Create a number of enclosures to be used in the demonstration of the system.'''
+    """Create a number of enclosures to be used in the demonstration of the system."""
     lion_enclosure = OpenAir('Lion Enclosure', 'extra large', 'savannah', 45)
     forest_paddock = OpenAir('Forest Paddock', 'large', 'forest', 80)
     croc_creek = OpenAir('Croc Creek', 'large', 'aquatic', 25)
@@ -58,12 +54,12 @@ def create_enclosures():
     return lion_enclosure, forest_paddock, croc_creek, snake_city, dragon_lair, birds_nest, penguin_pool
 
 def print_zoo_reports(manager: ZooManager):
-    '''Print reports for animals and enclosures.'''
+    """Print reports for animals and enclosures."""
     manager.animal_report()
     manager.enclosure_report()
 
 def enclosure_assignment(manager: ZooManager, animals, enclosures):
-    '''Assign enclosures to animals.'''
+    """Assign enclosures to animals."""
     simba, nala, snappy, monty, drogon, eddi, koko, pingu = animals
     lion_enclosure, forest_paddock, croc_creek, snake_city, dragon_lair, birds_nest, penguin_pool = enclosures
 
@@ -81,7 +77,7 @@ def enclosure_assignment(manager: ZooManager, animals, enclosures):
         manager.assign_animal_to_enclosure(animal, enclosure)
 
 def staff_assignment(manager: ZooManager, staff, enclosures):
-    '''Assign staffs to enclosures.'''
+    """Assign staffs to enclosures."""
     keeper_1, keeper_2, _ = staff
     lion_enclosure, forest_paddock, croc_creek, snake_city, dragon_lair, birds_nest, penguin_pool = enclosures
 
@@ -92,15 +88,15 @@ def staff_assignment(manager: ZooManager, staff, enclosures):
     manager.assign_zookeeper_to_enclosure(keeper_2, penguin_pool)
 
 def check_cleaning(enclosures):
-    '''Check if enclosures need cleaning.'''
-    lion_enclosure, forest_paddock, croc_creek, snake_city, dragon_lair, birds_nest, penguin_pool = enclosures
+    """Check if enclosures need cleaning."""
+
 
     print('\nChecking for enclosures which need to be cleaned\n')
     for enclosure in enclosures:
         enclosure.cleaning_required()
 
 def feeding_activities(staff, animals, enclosures):
-    '''Perform feeding activities'''
+    """Perform feeding activities"""
     keeper_1, keeper_2, _ = staff
     simba, nala, snappy, monty, drogon, eddi, koko, pingu = animals
     lion_enclosure, forest_paddock, croc_creek, snake_city, dragon_lair, birds_nest, penguin_pool = enclosures
@@ -114,7 +110,7 @@ def feeding_activities(staff, animals, enclosures):
     print(drogon.eat(drogon.enclosure))
 
 def health_checks(vet, animals, zoo_manager):
-    '''Perform health checks'''
+    """Perform health checks"""
     simba = animals[0]
     nala = animals[1]
 
@@ -150,21 +146,20 @@ def health_check_nala_return(vet, animals, zoo_manager):
 
 def main():
 
-    print('***Creating a manager***')
+    print('\n***Creating a manager***\n')
     manager = create_manager()
     print_zoo_reports(manager)
 
-    print('\n***Creating animals***')
+    print('\n***Creating animals***\n')
     animals = create_animals()
-    simba, nala, snappy, monty, drogon, eddi, koko, pingu = animals
     print_zoo_reports(manager)
 
-    print('\n***Creating enclosures***')
+    print('\n***Creating enclosures***\n')
     enclosures = create_enclosures()
     lion_enclosure, forest_paddock, croc_creek, snake_city, dragon_lair, birds_nest, penguin_pool = enclosures
     print_zoo_reports(manager)
 
-    print('\n***Assigning animals to enclosures***')
+    print('\n***Assigning animals to enclosures***\n')
     enclosure_assignment(manager, animals, enclosures)
     print_zoo_reports(manager)
 
@@ -172,24 +167,26 @@ def main():
     staff = create_staff()
     keeper_1, keeper_2, vet = staff
 
-    print('\n***assinging keepers to enclosures***')
+    print('\n***assinging keepers to enclosures***\n')
     staff_assignment(manager, staff, enclosures)
 
-    print('\n***feeding and cleaning enclosures***')
+    print('\n***feeding and cleaning enclosures***\n')
     check_cleaning(enclosures)
-    print('\n***Get Kevin (zookeeper1) to clean the lion enclosure.***')
+    print('\n***Get Kevin (zookeeper1) to clean the lion enclosure.***\n')
     keeper_1.clean_enclosure(lion_enclosure)
     check_cleaning(enclosures)
 
     feeding_activities(staff, animals, enclosures)
 
-    print('***health reporting and hospital transfer in.***')
+    print('\n***health reporting and hospital transfer in.***\n')
     health_checks(vet, animals, manager)
 
-    print('***health reporting and hospital transfer out.***')
+    print('\n***print zoo reports to show nala is not in enclosure.***\n')
+
+    print('\n***health reporting and hospital transfer out.***\n')
     health_check_nala_return(vet, animals, manager)
 
-    print('\n***Print reports***\n')
+    print('\n***Print reports - Nala has returned to her original enclosure***\n')
     all_reports = vet.get_all_reports()
     for report in all_reports:
         print(report)
